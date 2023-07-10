@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Chart.js Example</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+      canvas {
+        display: block;
+        margin: 0 auto;
+      }
+    </style>
+  </head>
+  <body>
+    <canvas id="mixedChart" width="400" height="200"></canvas>
+
+    <script>
+      var lineChart1Data = [10, 20, 30, 40, 50, 60];
+      var lineChart2Data = [15, 25, 35, 45, 55, 65];
+
+      var mixedChart = new Chart(document.getElementById("mixedChart"), {
+        type: "bar",
+        data: {
+          labels: ["January", "February", "March", "April", "May", "June"],
+          datasets: [
+            {
+              type: "line",
+              label: "Line Dataset 1",
+              data: lineChart1Data,
+              borderColor: "red",
+              fill: false,
+              hidden: true,
+            },
+            {
+              type: "line",
+              label: "Line Dataset 2",
+              data: lineChart2Data,
+              borderColor: "blue",
+              fill: false,
+              hidden: true,
+            },
+            {
+              type: "bar",
+              label: "Bar Dataset 1",
+              data: [50, 70, 90, 80, 60, 40],
+              backgroundColor: "orange",
+            },
+            {
+              type: "bar",
+              label: "Bar Dataset 2",
+              data: [30, 50, 70, 60, 40, 20],
+              backgroundColor: "yellow",
+            },
+          ],
+        },
+        options: {
+          responsive: true,
+          title: {
+            display: true,
+            text: "Mixed Chart",
+          },
+          scales: {
+            xAxes: [
+              {
+                stacked: true,
+              },
+            ],
+            yAxes: [
+              {
+                stacked: true,
+              },
+            ],
+          },
+          plugins: {
+            legend: {
+              onClick: function (event, legendItem) {
+                var index = legendItem.datasetIndex;
+                var ci = this.chart;
+
+                if (index === 2 || index === 3) {
+                  var meta = ci.getDatasetMeta(index);
+                  meta.hidden =
+                    meta.hidden === null
+                      ? !ci.data.datasets[index].hidden
+                      : null;
+
+                  if (index === 2) {
+                    // Update Line Chart 1 data
+                    lineChart1Data = lineChart1Data.map((value, i) => {
+                      return meta.hidden[i] ? null : value;
+                    });
+                    ci.update();
+                  } else if (index === 3) {
+                    // Update Line Chart 2 data
+                    lineChart2Data = lineChart2Data.map((value, i) => {
+                      return meta.hidden[i] ? null : value;
+                    });
+                    ci.update();
+                  }
+                }
+              },
+            },
+          },
+        },
+      });
+    </script>
+  </body>
+</html>
+
+<!-- In this code, the line chart data is stored in two separate variables: lineChart1Data and lineChart2Data. Initially, both line datasets are hidden by setting the hidden property to true.
+
+The onClick callback in the plugins.legend section captures the legend click events. When a legend item for the bar datasets is clicked (index === 2 or index === 3), it checks the corresponding dataset meta to determine which data points should be hidden or shown.
+
+If the legend item for the first bar dataset (index 2) is clicked, the line chart 1 data is updated by mapping through the lineChart1Data array and setting the corresponding values to null if they should be hidden. The chart is then updated.
+
+Similarly, if the legend item for the second bar dataset (index 3) is clicked, the line chart 2 data is updated in the same manner.
+
+With this code, when you click the legend items of the bar datasets, the line charts will update and show or hide data points based on the bar chart's legends' visibility state. -->
