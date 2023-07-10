@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Document</title>
+   </head>
+   <body>
+      <div class="text-center">
+         <h1 class="display-4">Welcome</h1>
+      </div>
+      <div style="width: 80%;">
+         <canvas id="myChart" ></canvas>
+      </div>
+      <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+      <script>
+         const ctx = document.getElementById('myChart');
+         const mixedChart = new Chart(ctx, {
+         data: {
+         datasets: [
+         {
+         type: 'line',
+         label: 'Resolved',
+         data: [50, 0, 33, 40],
+         backgroundColor: "rgb(122,255,194)",
+         borderColor: "rgb(87,230,164)"
+         },
+         {
+         type: 'line',
+         label: 'Unresolved',
+         data: [10, 12, 22, 44],
+         backgroundColor: "rgb(230,80,57)",
+         borderColor: "rgb(153,44,28)"
+         },
+         {
+         type: 'bar',
+         label: 'Service',
+         data: [7, 10, 27, 32],
+         backgroundColor: "rgb(205,157,234)",
+         borderColor: "rgb(176,85,230)"
+         },
+         {
+         type: 'bar',
+         label: 'Incident',
+         data: [10, 20, 30, 40],
+         backgroundColor: "rgb(234,154,174)",
+         borderColor:"rgb(102,37,53)"
+         },
+         
+         
+         ],
+         labels: ['January', 'February', 'March', 'April']
+         },
+         options: {
+         plugins: {
+            legend: {
+                 // Must return new sets of data
+                onClick: handleClick,
+                }
+         }
+         },
+         
+         });
+         
+         function handleClick(event, legendItem, legend){
+         console.log("Hello wORLD");
+         console.log(event);
+         //legend name = legend.text
+         console.log(legendItem.text);
+         console.log(legend);
+         }
+      </script>
+   </body>
+</html>
+</body>
+</html>
